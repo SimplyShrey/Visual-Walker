@@ -2,6 +2,8 @@
 using System.Data.Odbc;
 using ClosedXML.Excel;
 using WebApplication1.Models;
+using WebApplication1.Services;
+
 
 namespace WebApplication1.Data
 {
@@ -10,14 +12,50 @@ namespace WebApplication1.Data
         private readonly string _connectionString;
         private readonly ILogger<GraphicWalkerConnection> _logger;
 
+        //encryption service instance - delete if not working
+
         public GraphicWalkerConnection(IConfiguration configuration, ILogger<GraphicWalkerConnection> logger)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection") ??
                 throw new ArgumentNullException("DefaultConnection", "Connection string not found in configuration");
             _logger = logger;
+     //initialize encryption service - delete if not working
         }
 
         #region Dashboard Operations
+        // public async Task<List<GraphicWalker.Dashboard>> GetDashboards()
+        // {
+        //     try
+        //     {
+        //         var dashboards = new List<GraphicWalker.Dashboard>();
+        //         using var connection = new OdbcConnection(_connectionString);
+
+        //         await connection.OpenAsync();
+        //         string query = "SELECT DashboardName, JsonFormat, IsMultiple, DatasetName FROM Dashboards";
+
+        //         using var command = new OdbcCommand(query, connection);
+        //         using var reader = await command.ExecuteReaderAsync();
+
+        //         while (await reader.ReadAsync())
+        //         {
+        //             dashboards.Add(new GraphicWalker.Dashboard
+        //             {
+        //                 DashboardName = reader.GetString(0),
+        //                 JsonFormat = reader.GetString(1),
+        //                 IsMultiple = reader.GetBoolean(2),
+        //                 DatasetName = reader.GetString(3)
+        //             });
+        //         }
+        //         _logger.LogInformation($"Retrieved {dashboards.Count} dashboards");
+        //         return dashboards;
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         _logger.LogError(ex, "Error retrieving dashboards");
+        //         // Instead of crashing, return an empty list.
+        //         return new List<GraphicWalker.Dashboard>();
+        //     }
+        // }
         public async Task<List<GraphicWalker.Dashboard>> GetDashboards()
         {
             try
@@ -47,11 +85,56 @@ namespace WebApplication1.Data
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving dashboards");
-                // Instead of crashing, return an empty list.
                 return new List<GraphicWalker.Dashboard>();
             }
-}
+        }
 
+        // public async Task SaveDashboard(GraphicWalker.Dashboard dashboard)
+        // {
+        //     using var connection = new OdbcConnection(_connectionString);
+        //     try
+        //     {
+        //         await connection.OpenAsync();
+
+        //         // Check for existing dashboard
+        //         string checkQuery = "SELECT COUNT(*) FROM Dashboards WHERE DashboardName = ?";
+        //         using (var checkCommand = new OdbcCommand(checkQuery, connection))
+        //         {
+        //             checkCommand.Parameters.Add("@DashboardName", OdbcType.NVarChar, 255).Value = dashboard.DashboardName;
+        //             int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+        //             if (count > 0)
+        //             {
+        //                 throw new Exception("Dashboard name already exists");
+        //             }
+        //         }
+
+        //         // Insert new dashboard
+        //         string insertQuery = @"INSERT INTO Dashboards 
+        //                      (DashboardName, JsonFormat, IsMultiple, DatasetName) 
+        //                      VALUES (?, ?, ?, ?)";
+
+        //         using var command = new OdbcCommand(insertQuery, connection);
+
+        //         // Set parameters with explicit types and sizes
+        //         var p1 = command.Parameters.Add("@DashboardName", OdbcType.NVarChar, 255);
+        //         p1.Value = dashboard.DashboardName;
+
+        //         var p2 = command.Parameters.Add("@JsonFormat", OdbcType.NVarChar);
+        //         p2.Value = dashboard.JsonFormat ?? (object)DBNull.Value;
+
+        //         var p3 = command.Parameters.Add("@IsMultiple", OdbcType.Bit);
+        //         p3.Value = dashboard.IsMultiple;
+
+        //         var p4 = command.Parameters.Add("@DatasetName", OdbcType.NVarChar, 50);
+        //         p4.Value = dashboard.DatasetName ?? (object)DBNull.Value;
+
+        //         await command.ExecuteNonQueryAsync();
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         throw new Exception($"Error saving dashboard: {ex.Message}", ex);
+        //     }
+        // }
         public async Task SaveDashboard(GraphicWalker.Dashboard dashboard)
         {
             using var connection = new OdbcConnection(_connectionString);
@@ -59,42 +142,53 @@ namespace WebApplication1.Data
             {
                 await connection.OpenAsync();
 
-                // Check for existing dashboard
+                // Check if the dashboard already exists
                 string checkQuery = "SELECT COUNT(*) FROM Dashboards WHERE DashboardName = ?";
+                int count;
                 using (var checkCommand = new OdbcCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.Add("@DashboardName", OdbcType.NVarChar, 255).Value = dashboard.DashboardName;
-                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-                    if (count > 0)
-                    {
-                        throw new Exception("Dashboard name already exists");
-                    }
+                    count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
                 }
 
-                // Insert new dashboard
-                string insertQuery = @"INSERT INTO Dashboards 
-                             (DashboardName, JsonFormat, IsMultiple, DatasetName) 
-                             VALUES (?, ?, ?, ?)";
+                if (count > 0)
+                {
+                    // UPDATE existing dashboard
+                    _logger.LogInformation($"Dashboard '{dashboard.DashboardName}' already exists. Updating...");
+                    string updateQuery = @"UPDATE Dashboards 
+                                        SET JsonFormat = ?, IsMultiple = ?, DatasetName = ? 
+                                        WHERE DashboardName = ?";
 
-                using var command = new OdbcCommand(insertQuery, connection);
+                    using var updateCommand = new OdbcCommand(updateQuery, connection);
+                    updateCommand.Parameters.Add("@JsonFormat", OdbcType.NVarChar).Value = (object)dashboard.JsonFormat ?? DBNull.Value;
+                    updateCommand.Parameters.Add("@IsMultiple", OdbcType.Bit).Value = dashboard.IsMultiple;
+                    updateCommand.Parameters.Add("@DatasetName", OdbcType.NVarChar, 50).Value = (object)dashboard.DatasetName ?? DBNull.Value;
+                    updateCommand.Parameters.Add("@DashboardName", OdbcType.NVarChar, 255).Value = dashboard.DashboardName;
 
-                // Set parameters with explicit types and sizes
-                var p1 = command.Parameters.Add("@DashboardName", OdbcType.NVarChar, 255);
-                p1.Value = dashboard.DashboardName;
+                    await updateCommand.ExecuteNonQueryAsync();
+                    _logger.LogInformation($"Successfully updated dashboard: {dashboard.DashboardName}");
+                }
+                else
+                {
+                    // INSERT new dashboard
+                    _logger.LogInformation($"Dashboard '{dashboard.DashboardName}' not found. Creating new entry...");
+                    string insertQuery = @"INSERT INTO Dashboards 
+                                        (DashboardName, JsonFormat, IsMultiple, DatasetName) 
+                                        VALUES (?, ?, ?, ?)";
 
-                var p2 = command.Parameters.Add("@JsonFormat", OdbcType.NVarChar);
-                p2.Value = dashboard.JsonFormat ?? (object)DBNull.Value;
+                    using var insertCommand = new OdbcCommand(insertQuery, connection);
+                    insertCommand.Parameters.Add("@DashboardName", OdbcType.NVarChar, 255).Value = dashboard.DashboardName;
+                    insertCommand.Parameters.Add("@JsonFormat", OdbcType.NVarChar).Value = (object)dashboard.JsonFormat ?? DBNull.Value;
+                    insertCommand.Parameters.Add("@IsMultiple", OdbcType.Bit).Value = dashboard.IsMultiple;
+                    insertCommand.Parameters.Add("@DatasetName", OdbcType.NVarChar, 50).Value = (object)dashboard.DatasetName ?? DBNull.Value;
 
-                var p3 = command.Parameters.Add("@IsMultiple", OdbcType.Bit);
-                p3.Value = dashboard.IsMultiple;
-
-                var p4 = command.Parameters.Add("@DatasetName", OdbcType.NVarChar, 50);
-                p4.Value = dashboard.DatasetName ?? (object)DBNull.Value;
-
-                await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
+                    _logger.LogInformation($"Successfully saved new dashboard: {dashboard.DashboardName}");
+                }
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Error saving dashboard: {dashboard.DashboardName}");
                 throw new Exception($"Error saving dashboard: {ex.Message}", ex);
             }
         }

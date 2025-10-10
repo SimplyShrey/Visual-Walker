@@ -9,7 +9,6 @@ builder.Services.AddControllers();
 
 // Add GraphicWalkerConnection as a scoped service
 builder.Services.AddScoped<GraphicWalkerConnection>();
-
 // Add logging
 builder.Services.AddLogging();
 

@@ -1,2 +1,78 @@
-Graphic Walker Kt.pdf
-PyGWalkerDB
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+chatbot/
+
+# Environment variables and secrets
+.env
+*.env
+
+# Upload folders
+uploads/
+**/uploads/
+
+# .NET Build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Visual Studio files
+.vs/
+**/.vs/
+Properties/
+**/Properties/
+
+# Node.js
+node_modules/
+**/node_modules/
+package-lock.json
+package.json
+
+# Database and SQL files
+GetShipmentDetails.sql
+*.sql
+
+# Documentation
+GraphicWalkerKT.pdf
+*.pdf
+
+# Database
+PygWalkerDb
+PygWalkerDb/
+**/PygWalkerDb
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Build artifacts
+build/
+dist/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# .NET user files
+*.user
+*.rsuser
+*.suo

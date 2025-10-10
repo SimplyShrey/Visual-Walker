@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using WebApplication1.Data;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
@@ -10,10 +11,12 @@ namespace WebApplication1.Controllers
         private readonly GraphicWalkerConnection _connection;
         private readonly IWebHostEnvironment _environment;
 
+
         public GraphicWalkerController(GraphicWalkerConnection connection, IWebHostEnvironment environment)
         {
             _connection = connection;
             _environment = environment;
+            //initialize encryption service - delete if not working
         }
 
         #region Dashboard Endpoints
@@ -187,6 +190,7 @@ namespace WebApplication1.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
+
 
                 // Create dataset entry
                 var dataset = new GraphicWalker.Dataset

@@ -11,7 +11,7 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.0+da7792a032e9bfd333743065bc053ec7d62ae222")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.0+2119d3cafcec69c14ca4e1cd65075f0b484a9fc7")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebApplication1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.0")]

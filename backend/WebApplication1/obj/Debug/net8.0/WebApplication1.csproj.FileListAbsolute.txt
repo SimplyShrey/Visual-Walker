@@ -167,6 +167,7 @@ C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Deb
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\WebApplication1.AssemblyInfo.cs
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\WebApplication1.csproj.CoreCompileInputs.cache
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\WebApplication1.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\WebApplication1.sourcelink.json
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -182,3 +183,7 @@ C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Deb
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\WebApplication1.pdb
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\WebApplication1.genruntimeconfig.cache
 C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\obj\Debug\net8.0\ref\WebApplication1.dll
+C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\bin\Debug\net8.0\venv\Lib\site-packages\argparse-1.4.0.dist-info\metadata.json
+C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\bin\Debug\net8.0\venv\Lib\site-packages\CORScanner\origins.json
+C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\bin\Debug\net8.0\venv\Lib\site-packages\setuptools\config\distutils.schema.json
+C:\Users\shrey\Documents\PygWalker\PygWalker POC\backend\WebApplication1\bin\Debug\net8.0\venv\Lib\site-packages\setuptools\config\setuptools.schema.json

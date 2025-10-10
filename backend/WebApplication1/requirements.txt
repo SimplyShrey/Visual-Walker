@@ -1,0 +1,10 @@
+langchain
+wikipedia
+langchain-community
+langchain-openai
+langchain-anthropic
+openai
+python-dotenv
+pydantic
+flask
+cors
