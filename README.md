@@ -1,1 +1,1 @@
-# PyGWalker
+# Visual Walker
