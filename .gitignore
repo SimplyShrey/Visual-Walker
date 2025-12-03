@@ -24,6 +24,8 @@ obj/
 **/.vs/
 Properties/
 **/Properties/
+Services/
+**/Services/
 
 # Node.js
 node_modules/
@@ -51,6 +53,7 @@ PygWalkerDb/
 *.swo
 .DS_Store
 Thumbs.db
+*.gitignore
 
 # Logs
 *.log
