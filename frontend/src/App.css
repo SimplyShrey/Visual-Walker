@@ -1,0 +1,562 @@
+/* src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-family: 'Inter', sans-serif;
+  --background-color: #0A0A0A;
+  --surface-color: #141414;
+  --border-color: #262626;
+  --primary-color: #4b56f3; 
+  --primary-hover: #6366f1;
+  --secondary-color: #3f3f46;
+  --text-color: #FFFFFF;
+  --user-colour: #FFFFFF;
+  --text-muted-color: #B0B0B0;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+body.light-mode {
+  --background-color: #F9F9F9;
+  --surface-color: #f3ebeb;
+  --border-color: #E0E0E0;
+  --primary-color: #ddc6f5;
+  --primary-hover: #d6c3ea;
+  --secondary-color: #E0E0E0;
+  --text-color: #1a1a1a;
+  --text-muted-color: #52525b;
+  --nav-background: rgba(255, 255, 255, 0.30);
+  --placeholder-bg: rgba(245, 245, 220, 0.40);
+  --placeholder-text: #333333; 
+  --placeholder-icon: #ff69b4; 
+
+  --dark-text-to-light: #333333;
+  --dark-bg-to-light: #e0e0e0;
+}
+
+.app-container {
+  background-image: 
+    linear-gradient(rgba(13, 17, 23, 0.60), rgba(13, 17, 23, 0.60)), 
+    url('https://i.pinimg.com/1200x/01/85/ba/0185ba1eb5ad7e0efb85261f31526068.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+}
+
+body.light-mode .app-container {
+  background-image: 
+    linear-gradient(rgb(237, 214, 217), rgb(231, 164, 182)), 
+    url('https://i.pinimg.com/1200x/01/85/ba/0185ba1eb5ad7e0efb85261f31526068.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- 1. Refined Floating Navigation --- */
+.floating-nav {
+  position: fixed;
+  top: 0px;
+  left: 0;         /* stretch across full width */
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px; /* breathing room on sides */
+  background: rgba(20, 20, 20, 0.40); /* semi-transparent dark */
+
+}
+
+.nav-button.theme-toggle {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+/* Left-aligned app name */
+.nav-left {
+  font-weight: bold;
+}
+
+/* Centered nav links */
+.nav-center {
+  position: absolute;   /* absolute centering */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 24px;
+  font-weight: bold;
+}
+
+.app-title {
+  font-weight: 700; font-size: 1.2rem;
+  color: var(--text-color);
+  /* Removed fixed positioning to be part of the flex container */
+}
+.nav-links {
+  display: flex; gap: 8px;
+  /* Removed background and border for a pure text look */
+}
+.nav-button {
+  background: none; border: none; padding: 8px 16px;
+  font-family: var(--font-family); font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; color: var(--text-muted-color);
+  transition: all 0.2s ease;
+  border-radius: 999px;
+}
+.nav-button:hover { color: var(--text-color); }
+.nav-button.active {
+  color: white;
+}
+
+/* --- 2. Improved Main Layout & Spacing --- */
+.main-grid-container {
+  flex-grow: 1; display: grid;
+  grid-template-columns: 360px 1fr; /* Slightly narrower sidebar */
+  gap: 24px; padding: 24px; padding-top: 80px;
+}
+.left-column, .right-column { min-height: 0; }
+.left-column { display: flex; flex-direction: column; }
+
+/* --- 3. Polished Sidebar Panels --- */
+.sidebar-content {
+  display: flex; flex-direction: column; gap: 24px; height: 100%;
+}
+.sidebar-section {
+  /* background: linear-gradient(180deg, var(--surface-color) 0%, #000000 100%); */
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px; flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.sidebar-section h3 {
+  margin: 0 0 8px 0; font-size: 1.1rem;
+}
+.sidebar-section p {
+  margin: 0 0 20px 0; color: var(--text-muted-color); font-size: 0.9rem;
+}
+.chatbot-section {
+  flex-grow: 1; display: flex; flex-direction: column; min-height: 0;
+}
+
+/* --- 4. Human-Friendly Form Controls --- */
+.input-group { display: flex; align-items: stretch; gap: 10px; }
+.input-group select { flex-grow: 1; }
+select, .upload-button, .go-button {
+  background: var(--dark-bg-to-light, #0A0A0A); border: 1px solid var(--border-color);
+  border-radius: 8px; color: var(--text-color); padding: 10px 12px;
+  font-size: 0.9rem; transition: all 0.2s ease;
+}
+select:focus, .chatbot-input input:focus {
+  outline: none; border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+.go-button {
+  background-color: var(--primary-color); color: white;
+  border: none; font-weight: 600; cursor: pointer;
+}
+.divider { display: none; } /* Simplified the layout by removing "OR" */
+.upload-button {
+  width: 100%; text-align: center;
+  margin-top: 10px; cursor: pointer;
+  background: var(--dark-bg-to-light, var(--secondary-color));
+  color: var(--text-color);
+  border: none;
+}
+.upload-button:hover { background-color: #52525b; }
+
+/* --- 5. Enhanced Chart & Export Area --- */
+.chart-area {
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    border-radius: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Change to column layout */
+    align-items: stretch;
+    position: relative;
+    transition: border-color 0.3s ease;
+    overflow-y: auto; /* Enable scrolling */
+}
+.chart-area:has(> .graphic-walker-container) { /* Style when chart is present */
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  padding: 16px;
+}
+.export-container { display: none; } /* We can integrate this button elsewhere if needed */
+
+/* --- 6. Revamped Chatbot --- */
+.chat-wrapper {
+  flex-grow: 1; /* Make wrapper fill available space */
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Necessary for flex-grow in a flex container */
+}
+
+.chat-container {
+  flex-grow: 1; /* Make container fill the wrapper */
+  overflow-y: auto; /* Allow scrolling for messages */
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  position: relative;
+  gap: 16px; /* Increased space between messages */
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.chatbot-header {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.chatbot-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  padding-right: 8px; /* For scrollbar */
+}
+
+.message { 
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem; /* Smaller font size for messages */
+    line-height: 1.4;
+}
+
+.message.bot { 
+    align-self: flex-start;
+    background: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+
+.message.user { 
+    align-self: flex-end;
+    
+    color: var(--user-color); 
+    border: 2px solid var(--primary-hover);
+    background: var(--primary-color); 
+    font-weight: 500;
+} 
+h2 {
+    margin-bottom: 10px; /* Reduce space after title */
+    font-size: 1.5rem;
+}
+
+.chatbot-input {
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+  background-color: var(--dark-bg-to-light, #0A0A0A);
+  border: 1px solid var(--border-color);
+  border-radius: 999px; /* Pill shape */
+  padding: 4px 4px 4px 16px; /* Adjusted padding */
+  height: 40px;
+}
+
+.chatbot-input input {
+  flex-grow: 1; 
+  background: var(--dark-bg-to-light, transparent);
+  border: none; 
+  outline: none;
+  color: var(--text-color); 
+  font-size: 0.9rem; 
+  padding: 0; /* Removed padding to prevent overlapping */
+  height: 100%;
+}
+
+.chatbot-input button {
+  border-radius: 50%; 
+  min-width: 32px; /* Changed from width to min-width */
+  min-height: 32px; /* Changed from height to min-height */
+  border: none; 
+  font-weight: 600; 
+  font-size: 18px; /* Smaller font size for "Send" text */
+  content: "→";
+  line-height: 1;
+   padding-top: 2px;
+  cursor: pointer;
+  background-color: var(--primary-color); 
+  color: white;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+/*Button*/
+
+.export-button-floating {
+    position: fixed;
+    top: 40px;
+    right: 24px;
+    z-index: 1001;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+
+    /* --- Style Changes for Hazy Look --- */
+    background-color: rgba(255, 255, 255, 0.1); /* Translucent light grey */
+    backdrop-filter: blur(10px);                 /* The "hazy" blur effect */
+    -webkit-backdrop-filter: blur(10px);         /* For Safari browser support */
+    color: var(--text-color);                    /* Visible text color */
+    border: 1px solid rgba(255, 255, 255, 0.2);  /* Subtle border to define edges */
+    border-radius: 8px;
+}
+
+.export-button-floating:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Make slightly more opaque on hover */
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Keep your existing hover styles */
+.export-button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.export-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* --- Enlarged Placeholder (global, for both pages) --- */
+/* --- Full-size Placeholder Panel --- */
+.placeholder-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--placeholder-bg, rgba(20, 20, 20, 0.65));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  color: var(--placeholder-text, #c0c0c0);
+  font-size: 1.6rem;
+  text-align: center;
+
+  pointer-events: none; /* lets clicks go through to Graphic Walker */
+  z-index: 1;
+}
+
+.placeholder-container svg {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 32px;
+  opacity: 0.9;
+  stroke: var(--placeholder-icon, currentColor);
+  
+}
+
+/* Hover effect */
+.placeholder-container:hover {
+  background: rgba(30, 30, 30, 0.75);
+  border-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.chatbot-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.upload-button, .export-button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.upload-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.export-button {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.upload-button:hover, .export-button:hover {
+    transform: translateY(-1px);
+}
+
+.upload-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.export-button:hover {
+    background-color: var(--surface-color);
+}
+
+.export-button:disabled, .upload-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+.chatbot-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 600px;
+    margin-top: -20px; /* Reduce space from title */
+}
+
+.chatbot-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) transparent;
+    scroll-behavior: auto;
+    max-height: calc(100vh - 200px);
+    height: 100%;
+    position: relative;
+} 
+
+
+/* Customize scrollbar for WebKit browsers */
+.chatbot-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* --- Custom Modal Styles --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background-color: var(--surface-color);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-content h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-color);
+}
+
+.modal-content p {
+  margin: 0;
+  color: var(--text-muted-color);
+}
+
+.modal-input {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(75, 86, 243, 0.3);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-button.save {
+  background-color: var(--primary-color);
+  color: white;
+}
+.modal-button.save:hover {
+  background-color: var(--primary-hover);
+}
+
+.modal-button.cancel {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+.modal-button.cancel:hover {
+  background-color: #52525b;
+}
